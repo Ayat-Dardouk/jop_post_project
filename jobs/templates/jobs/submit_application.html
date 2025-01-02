@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Application for {{ job_position.title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="mt-5">Submit Application for {{ job_position.title }}</h1>
+        </header>
+        <main>
+            <!-- Display success or error messages -->
+            {% if messages %}
+        <ul class="messages" style="color: red;">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+            <form method="post" enctype="multipart/form-data" class="mt-3">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="applicant_name">Name:</label>
+                    <input type="text" class="form-control" id="applicant_name" name="applicant_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="applicant_email">Email:</label>
+                    <input type="email" class="form-control" id="applicant_email" name="applicant_email" required>
+                </div>
+                <div class="form-group">
+                    <label for="cv">CV:</label>
+                    <input type="file" class="form-control-file" id="cv" name="cv" required>
+                </div>
+                <div class="form-group">
+                    <label for="cover_letter">Cover Letter:</label>
+                    <textarea class="form-control" id="cover_letter" name="cover_letter"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

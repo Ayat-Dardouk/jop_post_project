@@ -1,0 +1,24 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}My Company Positions{% endblock %}
+
+{% block content %}
+<header>
+  cx   <h1 class="mt-5">My Company Positions</h1>
+</header>
+<main>
+    <section>
+        {% if job_positions %}
+            <ul class="list-group mt-3">
+                {% for job in job_positions %}
+                    <li class="list-group-item">
+                        <a href="{% url 'view_job_position' job.id %}">{{ job.title }}</a> at {{ job.company.name }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No job positions available.</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

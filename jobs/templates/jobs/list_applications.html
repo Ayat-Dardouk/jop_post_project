@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="mt-5">Applications</h1>
+        </header>
+        <main>
+            <section>
+                {% if applications %}
+                    <ul class="list-group mt-3">
+                        {% for application in applications %}
+                            <li class="list-group-item">
+                                {{ application.applicant_name }} applied for {{ application.job_position.title }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No applications available.</p>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>

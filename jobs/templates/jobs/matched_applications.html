@@ -1,0 +1,29 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}Matched Applications for {{ job_position.title }}{% endblock %}
+
+{% block content %}
+<header>
+    <h1 class="mt-5">Matched Applications for {{ job_position.title }}</h1>
+    <a href="{% url 'view_job_position' job_position.id %}" class="btn btn-link mt-3"> < Back to Job</a>
+</header>
+<main>
+    <section>
+        {% if applications %}
+            <ul class="list-group mt-3">
+                {% for application in applications %}
+                    <li class="list-group-item">
+                        <strong>{{ application.applicant_name }}</strong> - {{ application.status }}
+                        <p>Email: {{ application.applicant_email }}</p>
+                        <p>Cover Letter: {{ application.cover_letter }}</p>
+                        <a href="{{ application.cv.url }}" class="btn btn-primary" download>Download CV</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No applications available.</p>
+        {% endif %}
+
+    </section>
+</main>
+{% endblock %}

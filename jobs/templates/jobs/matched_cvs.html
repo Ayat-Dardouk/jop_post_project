@@ -1,0 +1,72 @@
+{% extends 'jobs/base.html' %}
+{% load custom_filters %}
+
+{% block title %}Matched CVs for {{ job_position.title }}{% endblock %}
+
+{% block content %}
+<header>
+    <h1 class="mt-5">Matched CVs for {{ job_position.title }}</h1>
+
+    {% if messages %}
+        <ul class="messages" style="color: red;">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a href="{% url 'view_job_position' job_position.id %}" class="btn btn-link mt-3"> < Back to Job</a>
+</header>
+<main>
+    <section>
+        {% if matched_applications %}
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Applicant Name</th>
+                            <th scope="col">Applicant Email</th>
+                            <th scope="col">Similarity Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application, score in matched_applications|zip_lists:scores %}
+                            {% with score_percentage=score|floatformat:2 %}
+                                {% with score_class="" %}
+                                    {% if score_percentage >= 80 %}
+                                        {% with score_class="text-success" %}
+                                            <tr>
+                                                <td>{{ application.applicant_name }}</td>
+                                                <td>{{ application.applicant_email }}</td>
+                                                <td class="{{ score_class }}">{{ score_percentage }}%</td>
+                                            </tr>
+                                        {% endwith %}
+                                    {% elif score_percentage >= 50 %}
+                                        {% with score_class="text-warning" %}
+                                            <tr>
+                                                <td>{{ application.applicant_name }}</td>
+                                                <td>{{ application.applicant_email }}</td>
+                                                <td class="{{ score_class }}">{{ score_percentage }}%</td>
+                                            </tr>
+                                        {% endwith %}
+                                    {% else %}
+                                        {% with score_class="text-danger" %}
+                                            <tr>
+                                                <td>{{ application.applicant_name }}</td>
+                                                <td>{{ application.applicant_email }}</td>
+                                                <td class="{{ score_class }}">{{ score_percentage }}%</td>
+                                            </tr>
+                                        {% endwith %}
+                                    {% endif %}
+                                {% endwith %}
+                            {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No matching CVs found.</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
