@@ -123,6 +123,35 @@ class SubmitApplicationView(View):
         return redirect('view_job_position', job_id=job_id)
 
 
+class AddJobPositionView(View):
+    def get(self, request, company_id):
+        company = get_object_or_404(Company, id=company_id)
+        return render(request, 'jobs/add_job_position.html', {'company': company})
+
+    def post(self, request, company_id):
+        company = get_object_or_404(Company, id=company_id)
+        title = request.POST['title']
+        description = request.POST['description']
+        required_skills = request.POST['required_skills']
+        application_deadline = request.POST['application_deadline']
+        salary_range = request.POST['salary_range']
+        job_type = request.POST['job_type']
+
+        JobPosition.objects.create(
+            company=company,
+            title=title,
+            description=description,
+            required_skills=required_skills,
+            application_deadline=application_deadline,
+            salary_range=salary_range,
+            job_type=job_type,
+        )
+        messages.success(request, "Your position has been posted successfully.")
+        return redirect('user_company_positions')
+
+
+
+
 class JobAppliedApplicationsView(View):
     @method_decorator(login_required)
     def get(self, request, job_id):

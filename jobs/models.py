@@ -10,7 +10,7 @@ class Company(TimeStampedModel):
     website = models.URLField(blank=True, null=True)
     established_date = models.DateField(blank=True, null=True)
     admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='companies')
-
+    
     def __str__(self):
         return self.name
 
@@ -23,7 +23,7 @@ class JobPosition(TimeStampedModel):
     application_deadline = models.DateField(blank=True, null=True)
     salary_range = models.CharField(max_length=100, blank=True, null=True)
     job_type = models.CharField(max_length=50, choices=[('FT', 'Full-Time'), ('PT', 'Part-Time'), ('CT', 'Contract')])
-
+    
     def __str__(self):
         return f"{self.title} at {self.company.name}"
 
